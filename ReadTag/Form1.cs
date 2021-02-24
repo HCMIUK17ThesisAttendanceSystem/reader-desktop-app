@@ -12,6 +12,8 @@ using RFIDReaderAPI.Interface;
 using RFIDReaderAPI.Models;
 using System.Data.SqlClient;
 
+using xNet;
+
 namespace ReadTag
 {
     public partial class Form1 : Form, IAsynchronousMessage
@@ -28,9 +30,12 @@ namespace ReadTag
             
         }
 
-        private void AddNewRfidStudentTag(string tagTID)
+        private string AddNewRfidStudentTag(string rfidTag)
         {
             // Post tagTID to backend
+            HttpRequest http = new HttpRequest();
+            string response = http.Post("http://localhost:8080/reader/new-rfid", rfidTag).ToString();
+            return response;
         }
 
         private void AddAttendanceRecord(string tagTID, string tagReadTime, int AntNum)
@@ -51,6 +56,8 @@ namespace ReadTag
             cmd.ExecuteNonQuery();
 
             // Perform one of two method (add new tag or add attendance record)
+            string result = AddNewRfidStudentTag(tag.TID);
+            Console.WriteLine(result);
         }
 
         public void OutPutTagsOver()
