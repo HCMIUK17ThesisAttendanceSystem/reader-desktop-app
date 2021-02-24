@@ -28,6 +28,16 @@ namespace ReadTag
             
         }
 
+        private void AddNewRfidStudentTag(string tagTID)
+        {
+            // Post tagTID to backend
+        }
+
+        private void AddAttendanceRecord(string tagTID, string tagReadTime, int AntNum)
+        {
+            // Post tagTID, readTime and room number
+        }
+
         public void OutPutTags(Tag_Model tag)
         {
             // Sau khi bật chế độ đọc thẻ, dữ liệu trả về xuất ra tại đây.
@@ -39,6 +49,8 @@ namespace ReadTag
             /*tag.TID = ID thẻ // tag.ReadTime = thời gian đọc thẻ // tag.ANT_NUM = ăng-ten đọc đc thẻ
             Xem thêm các dữ liệu xuất ra trong file hướng dẫn.*/
             cmd.ExecuteNonQuery();
+
+            // Perform one of two method (add new tag or add attendance record)
         }
 
         public void OutPutTagsOver()
@@ -54,6 +66,7 @@ namespace ReadTag
         public void PortConnecting(string connID)
         {
             //Thực thi khi kết nối với đầu đọc
+            // Get/put connection with backend too
         }
 
         public void WriteDebugMsg(string msg)
