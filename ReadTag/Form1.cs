@@ -10,15 +10,14 @@ using System.Windows.Forms;
 using RFIDReaderAPI;
 using RFIDReaderAPI.Interface;
 using RFIDReaderAPI.Models;
-using System.Data.SqlClient;
-
 using xNet;
+
 
 namespace ReadTag
 {
     public partial class Form1 : Form, IAsynchronousMessage
     {
-        string strConnection = "chuoi ket noi";
+        string url = "http://192.168.0.104/reader/";
         public Form1()
         {
             InitializeComponent();
@@ -30,34 +29,18 @@ namespace ReadTag
             
         }
 
-        private string AddNewRfidStudentTag(string rfidTag)
+        private string AddNewRfidTag(string tagTID)
         {
-            // Post tagTID to backend
-            HttpRequest http = new HttpRequest();
-            string response = http.Post("http://localhost:8080/reader/new-rfid", rfidTag).ToString();
+            TxtLog.Text += tagTID + "\r\n";
+            HttpRequest request = new HttpRequest();
+            string response = request.Post("http://192.168.0.104:8080/reader/new-rfid?rfidTag=" + tagTID).ToString();
             return response;
-        }
-
-        private void AddAttendanceRecord(string tagTID, string tagReadTime, int AntNum)
-        {
-            // Post tagTID, readTime and room number
         }
 
         public void OutPutTags(Tag_Model tag)
         {
-            // Sau khi bật chế độ đọc thẻ, dữ liệu trả về xuất ra tại đây.
-            SqlConnection connection = new SqlConnection(strConnection);
-            SqlCommand cmd;
-            cmd = connection.CreateCommand();
-            connection.Open();
-            cmd.CommandText = "INSERT INTO <Ten-Bang> (Cot1, Cot2, Cot3) VALUES('" + tag.TID + "','" + tag.ReadTime + "','" + tag.ANT_NUM + "')";
-            /*tag.TID = ID thẻ // tag.ReadTime = thời gian đọc thẻ // tag.ANT_NUM = ăng-ten đọc đc thẻ
-            Xem thêm các dữ liệu xuất ra trong file hướng dẫn.*/
-            cmd.ExecuteNonQuery();
-
-            // Perform one of two method (add new tag or add attendance record)
-            string result = AddNewRfidStudentTag(tag.TID);
-            Console.WriteLine(result);
+            string res = AddNewRfidTag(tag.TID);
+            //TxtLog.Text += res + "\r\n";
         }
 
         public void OutPutTagsOver()
@@ -73,7 +56,6 @@ namespace ReadTag
         public void PortConnecting(string connID)
         {
             //Thực thi khi kết nối với đầu đọc
-            // Get/put connection with backend too
         }
 
         public void WriteDebugMsg(string msg)
