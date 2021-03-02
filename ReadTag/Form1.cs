@@ -10,18 +10,49 @@ using System.Windows.Forms;
 using RFIDReaderAPI;
 using RFIDReaderAPI.Interface;
 using RFIDReaderAPI.Models;
-using xNet;
 
+using xNet;
+using Quobject.SocketIoClientDotNet.Client;
 
 namespace ReadTag
 {
     public partial class Form1 : Form, IAsynchronousMessage
     {
-        string url = "http://192.168.0.104/reader/";
+        string url = "http://192.168.1.102:8080";
+
         public Form1()
         {
             InitializeComponent();
+            ConnectToServer();
             BtnStart.Enabled = false;
+        }
+
+        private class Response
+        {
+            public Response(string action)
+            {
+                this.action = action;
+            }
+            public string action { get; set; }
+            public string data { get; set; }
+        }
+
+        public void ConnectToServer()
+        {
+            var client = IO.Socket(url);
+
+            client.On(Socket.EVENT_CONNECT, () =>
+            {
+                TxtLog.Text += "Connected to server :D\r\n";
+                Console.WriteLine("Connected to server :D");
+                client.Emit("get-current-courses"); // emit not work
+            });
+
+            client.On("current-courses", response =>
+            {
+                TxtLog.Text += response + "\r\n";
+                Console.WriteLine(response);
+            });
         }
 
         public void GPIControlMsg(GPI_Model gpi_model)
@@ -56,6 +87,7 @@ namespace ReadTag
         public void PortConnecting(string connID)
         {
             //Thực thi khi kết nối với đầu đọc
+            ConnectToServer();
         }
 
         public void WriteDebugMsg(string msg)
