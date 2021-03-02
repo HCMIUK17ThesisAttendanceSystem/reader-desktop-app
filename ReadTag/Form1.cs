@@ -18,7 +18,7 @@ namespace ReadTag
 {
     public partial class Form1 : Form, IAsynchronousMessage
     {
-        string url = "http://192.168.1.102:8080";
+        string url = "http://localhost:8080";
 
         public Form1()
         {
@@ -68,10 +68,18 @@ namespace ReadTag
             return response;
         }
 
+        private string CheckAttendance(string tagTID, string courseId)
+        {
+            HttpRequest request = new HttpRequest();
+            string response = request.Post($"http://192.168.0.104:8080/reader/attendance?rfidTag={tagTID}&courseId={courseId}").ToString();
+            return response;
+        }
+
         public void OutPutTags(Tag_Model tag)
         {
-            string res = AddNewRfidTag(tag.TID);
-            //TxtLog.Text += res + "\r\n";
+            //string res = AddNewRfidTag(tag.TID);
+            string res = CheckAttendance(tag.TID, "603d1f1965bc512da8832841");
+            TxtLog.Text += res + "\r\n";
         }
 
         public void OutPutTagsOver()
