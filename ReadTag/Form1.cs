@@ -62,23 +62,23 @@ namespace ReadTag
 
         private string AddNewRfidTag(string tagTID)
         {
-            TxtLog.Text += tagTID + "\r\n";
+            //TxtLog.Text += tagTID + "\r\n";
             HttpRequest request = new HttpRequest();
-            string response = request.Post("http://192.168.0.104:8080/reader/new-rfid?rfidTag=" + tagTID).ToString();
+            string response = request.Post($"{url}/reader/rfid?rfidTag={tagTID}").ToString();
             return response;
         }
 
         private string CheckAttendance(string tagTID, string courseId)
         {
             HttpRequest request = new HttpRequest();
-            string response = request.Post($"http://192.168.0.104:8080/reader/attendance?rfidTag={tagTID}&courseId={courseId}").ToString();
+            string response = request.Post($"{url}/reader/attendance?rfidTag={tagTID}&courseId={courseId}").ToString();
             return response;
         }
 
         public void OutPutTags(Tag_Model tag)
         {
-            //string res = AddNewRfidTag(tag.TID);
-            string res = CheckAttendance(tag.TID, "603d1f1965bc512da8832841");
+            string res = AddNewRfidTag(tag.TID);
+            //string res = CheckAttendance(tag.TID, "603d1f1965bc512da8832841");
             TxtLog.Text += res + "\r\n";
         }
 
@@ -110,20 +110,30 @@ namespace ReadTag
 
         private void BtnConnect_Click(object sender, EventArgs e)
         {
+            string tcp = TxtTcp.Text;
             if (BtnConnect.Text == "Connect")
             {
-                    bool cn = RFIDReader.CreateTcpConn(TxtTcp.Text, this); // Connect đến đầu đọc
+                    bool cn = RFIDReader.CreateTcpConn(tcp, this); // Connect đến đầu đọc
                     if (cn)
                     {
-                        TxtLog.Text += "Kết nối thành công\r\n";
+                        TxtLog.Text += "Connect successfully to reader(s)\r\n";
                         BtnConnect.Text = "Disconnect";
                         TxtTcp.Enabled = false;
                         BtnStart.Enabled = true;
+
+                        int stup = RFIDReader._RFIDConfig.SetTagUpdateParam(tcp, 6000, 0); // Stop reading the same tag for 1 minute (6000 centiseconds)
+                        if (stup == 0) TxtLog.Text += "Set tag update filter successfully\r\n";
+                        else TxtLog.Text += "Set tag update filter failed\r\n";
+
+                        int srasp = RFIDReader._RFIDConfig.SetReaderAutoSleepParam(tcp, true, "50"); // auto sleep in 1/2 second
+                        if (srasp == 0) TxtLog.Text += "Set auto sleep successfully\r\n";
+                        else TxtLog.Text += "Set auto sleep failed\r\n";
+
                         RFIDReader._RFIDConfig.Stop(TxtTcp.Text); 
                     }
                     else
                     {
-                        TxtLog.Text += "Kết nối thất bại\r\n";
+                        TxtLog.Text += "Failed connection to reader(s)\r\n";
                     }
 
             }
