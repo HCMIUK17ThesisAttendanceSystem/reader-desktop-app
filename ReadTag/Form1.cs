@@ -18,7 +18,7 @@ namespace ReadTag
 {
     public partial class Form1 : Form, IAsynchronousMessage
     {
-        string url = "http://localhost:8080";
+        string url = "https://hcmiu-presence.herokuapp.com";
 
         public Form1()
         {
@@ -77,9 +77,11 @@ namespace ReadTag
 
         public void OutPutTags(Tag_Model tag)
         {
+            Console.WriteLine(tag.TID);
             string res = AddNewRfidTag(tag.TID);
             //string res = CheckAttendance(tag.TID, "603d1f1965bc512da8832841");
             TxtLog.Text += res + "\r\n";
+            Console.WriteLine(res);
         }
 
         public void OutPutTagsOver()

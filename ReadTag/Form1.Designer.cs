@@ -43,16 +43,19 @@ namespace ReadTag
             // 
             // TxtTcp
             // 
-            this.TxtTcp.Location = new System.Drawing.Point(91, 16);
+            this.TxtTcp.Location = new System.Drawing.Point(121, 20);
+            this.TxtTcp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.TxtTcp.Name = "TxtTcp";
-            this.TxtTcp.Size = new System.Drawing.Size(167, 20);
+            this.TxtTcp.Size = new System.Drawing.Size(221, 22);
             this.TxtTcp.TabIndex = 0;
+            this.TxtTcp.Text = "192.168.1.116:9090";
             // 
             // BtnConnect
             // 
-            this.BtnConnect.Location = new System.Drawing.Point(264, 14);
+            this.BtnConnect.Location = new System.Drawing.Point(352, 17);
+            this.BtnConnect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BtnConnect.Name = "BtnConnect";
-            this.BtnConnect.Size = new System.Drawing.Size(75, 23);
+            this.BtnConnect.Size = new System.Drawing.Size(100, 28);
             this.BtnConnect.TabIndex = 1;
             this.BtnConnect.Text = "Connect";
             this.BtnConnect.UseVisualStyleBackColor = true;
@@ -63,9 +66,11 @@ namespace ReadTag
             this.GrpSetting.Controls.Add(this.label1);
             this.GrpSetting.Controls.Add(this.TxtTcp);
             this.GrpSetting.Controls.Add(this.BtnConnect);
-            this.GrpSetting.Location = new System.Drawing.Point(12, 12);
+            this.GrpSetting.Location = new System.Drawing.Point(16, 15);
+            this.GrpSetting.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.GrpSetting.Name = "GrpSetting";
-            this.GrpSetting.Size = new System.Drawing.Size(360, 51);
+            this.GrpSetting.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.GrpSetting.Size = new System.Drawing.Size(480, 63);
             this.GrpSetting.TabIndex = 2;
             this.GrpSetting.TabStop = false;
             this.GrpSetting.Text = "Setting";
@@ -73,34 +78,38 @@ namespace ReadTag
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 19);
+            this.label1.Location = new System.Drawing.Point(17, 23);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 13);
+            this.label1.Size = new System.Drawing.Size(95, 17);
             this.label1.TabIndex = 2;
             this.label1.Text = "TCP Address:";
             // 
             // TxtLog
             // 
-            this.TxtLog.Location = new System.Drawing.Point(12, 89);
+            this.TxtLog.Location = new System.Drawing.Point(16, 110);
+            this.TxtLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.TxtLog.Multiline = true;
             this.TxtLog.Name = "TxtLog";
-            this.TxtLog.Size = new System.Drawing.Size(296, 255);
+            this.TxtLog.Size = new System.Drawing.Size(393, 313);
             this.TxtLog.TabIndex = 3;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 70);
+            this.label2.Location = new System.Drawing.Point(17, 86);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(25, 13);
+            this.label2.Size = new System.Drawing.Size(32, 17);
             this.label2.TabIndex = 4;
             this.label2.Text = "Log";
             // 
             // BtnStart
             // 
-            this.BtnStart.Location = new System.Drawing.Point(314, 89);
+            this.BtnStart.Location = new System.Drawing.Point(419, 110);
+            this.BtnStart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BtnStart.Name = "BtnStart";
-            this.BtnStart.Size = new System.Drawing.Size(75, 23);
+            this.BtnStart.Size = new System.Drawing.Size(100, 28);
             this.BtnStart.TabIndex = 5;
             this.BtnStart.Text = "Start";
             this.BtnStart.UseVisualStyleBackColor = true;
@@ -108,18 +117,20 @@ namespace ReadTag
             // 
             // BtnExit
             // 
-            this.BtnExit.Location = new System.Drawing.Point(315, 320);
+            this.BtnExit.Location = new System.Drawing.Point(420, 394);
+            this.BtnExit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(75, 23);
+            this.BtnExit.Size = new System.Drawing.Size(100, 28);
             this.BtnExit.TabIndex = 6;
             this.BtnExit.Text = "Exit";
             this.BtnExit.UseVisualStyleBackColor = true;
             // 
             // BtnClearLog
             // 
-            this.BtnClearLog.Location = new System.Drawing.Point(315, 119);
+            this.BtnClearLog.Location = new System.Drawing.Point(420, 146);
+            this.BtnClearLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BtnClearLog.Name = "BtnClearLog";
-            this.BtnClearLog.Size = new System.Drawing.Size(75, 23);
+            this.BtnClearLog.Size = new System.Drawing.Size(100, 28);
             this.BtnClearLog.TabIndex = 7;
             this.BtnClearLog.Text = "Clear Log";
             this.BtnClearLog.UseVisualStyleBackColor = true;
@@ -127,15 +138,16 @@ namespace ReadTag
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(569, 361);
+            this.ClientSize = new System.Drawing.Size(759, 444);
             this.Controls.Add(this.BtnClearLog);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.BtnStart);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.TxtLog);
             this.Controls.Add(this.GrpSetting);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.GrpSetting.ResumeLayout(false);
