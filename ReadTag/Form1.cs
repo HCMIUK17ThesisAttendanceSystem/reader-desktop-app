@@ -19,6 +19,7 @@ namespace ReadTag
     public partial class Form1 : Form, IAsynchronousMessage
     {
         string url = "https://hcmiu-presence.herokuapp.com";
+        //string url = "http://localhost:8080";
 
         public Form1()
         {
@@ -27,14 +28,13 @@ namespace ReadTag
             BtnStart.Enabled = false;
         }
 
-        private class Response
+        private class Course
         {
-            public Response(string action)
+            public Course(string id)
             {
-                this.action = action;
+                this.id = id;
             }
-            public string action { get; set; }
-            public string data { get; set; }
+            public string id { get; set; }
         }
 
         public void ConnectToServer()
@@ -48,9 +48,27 @@ namespace ReadTag
                 client.Emit("get-current-courses"); // emit not work
             });
 
+            client.On(Socket.EVENT_DISCONNECT, (reason) =>
+            {
+                TxtLog.Text += $"Disconnected from server due to: {reason}\r\n";
+                Console.WriteLine($"Disconnected from server due to: {reason}");
+            });
+
+            client.On(Socket.EVENT_RECONNECT, () =>
+            {
+                TxtLog.Text += "Reconnected to server :D\r\n";
+                Console.WriteLine("Reconnected to server :D");
+            });
+
             client.On("current-courses", response =>
             {
-                TxtLog.Text += response + "\r\n";
+                //TxtLog.Text += response + "\r\n";
+                Console.WriteLine(response);
+            });
+
+            client.On("scheduled-courses", response =>
+            {
+                //TxtLog.Text += response + "\r\n";
                 Console.WriteLine(response);
             });
         }
@@ -78,8 +96,8 @@ namespace ReadTag
         public void OutPutTags(Tag_Model tag)
         {
             Console.WriteLine(tag.TID);
-            string res = AddNewRfidTag(tag.TID);
-            //string res = CheckAttendance(tag.TID, "603d1f1965bc512da8832841");
+            //string res = AddNewRfidTag(tag.TID);
+            string res = CheckAttendance(tag.TID, TxtCourseId.Text);
             TxtLog.Text += res + "\r\n";
             Console.WriteLine(res);
         }
@@ -121,15 +139,16 @@ namespace ReadTag
                         TxtLog.Text += "Connect successfully to reader(s)\r\n";
                         BtnConnect.Text = "Disconnect";
                         TxtTcp.Enabled = false;
+                        TxtCourseId.Enabled = false;
                         BtnStart.Enabled = true;
 
                         int stup = RFIDReader._RFIDConfig.SetTagUpdateParam(tcp, 6000, 0); // Stop reading the same tag for 1 minute (6000 centiseconds)
                         if (stup == 0) TxtLog.Text += "Set tag update filter successfully\r\n";
                         else TxtLog.Text += "Set tag update filter failed\r\n";
 
-                        int srasp = RFIDReader._RFIDConfig.SetReaderAutoSleepParam(tcp, true, "50"); // auto sleep in 1/2 second
-                        if (srasp == 0) TxtLog.Text += "Set auto sleep successfully\r\n";
-                        else TxtLog.Text += "Set auto sleep failed\r\n";
+                        //int srasp = RFIDReader._RFIDConfig.SetReaderAutoSleepParam(tcp, true, "50"); // auto sleep in 1/2 second
+                        //if (srasp == 0) TxtLog.Text += "Set auto sleep successfully\r\n";
+                        //else TxtLog.Text += "Set auto sleep failed\r\n";
 
                         RFIDReader._RFIDConfig.Stop(TxtTcp.Text); 
                     }
@@ -144,6 +163,7 @@ namespace ReadTag
                 RFIDReader._RFIDConfig.Stop(TxtTcp.Text); // Tắt chế độ đọc thẻ trước khi ngắt kết nối
                 RFIDReader.CloseConn(TxtTcp.Text); // Ngắt kết nối với đầu đọc
                 TxtTcp.Enabled = true;
+                TxtCourseId.Enabled = true;
                 BtnStart.Enabled = false;
                 BtnConnect.Text = "Connect";
                 TxtLog.Text += "Ngắt kết nối\r\n";
