@@ -95,10 +95,12 @@ namespace ReadTag
 
         public void OutPutTags(Tag_Model tag)
         {
-            Console.WriteLine(tag.TID);
+            Console.WriteLine("Someone is near the door :D");
             //string res = AddNewRfidTag(tag.TID);
             string res = CheckAttendance(tag.TID, TxtCourseId.Text);
             TxtLog.Text += res + "\r\n";
+            TxtLog.SelectionStart = TxtLog.SelectionLength;
+            TxtLog.ScrollToCaret();
             Console.WriteLine(res);
         }
 
@@ -142,13 +144,13 @@ namespace ReadTag
                         TxtCourseId.Enabled = false;
                         BtnStart.Enabled = true;
 
-                        int stup = RFIDReader._RFIDConfig.SetTagUpdateParam(tcp, 6000, 0); // Stop reading the same tag for 1 minute (6000 centiseconds)
+                        int stup = RFIDReader._RFIDConfig.SetTagUpdateParam(tcp, 500, 0); // Stop reading the same tag for 1 minute (6000 centiseconds)
                         if (stup == 0) TxtLog.Text += "Set tag update filter successfully\r\n";
                         else TxtLog.Text += "Set tag update filter failed\r\n";
 
-                        //int srasp = RFIDReader._RFIDConfig.SetReaderAutoSleepParam(tcp, true, "50"); // auto sleep in 1/2 second
-                        //if (srasp == 0) TxtLog.Text += "Set auto sleep successfully\r\n";
-                        //else TxtLog.Text += "Set auto sleep failed\r\n";
+                        int srasp = RFIDReader._RFIDConfig.SetReaderAutoSleepParam(tcp, true, "50"); // auto sleep in 1/2 second
+                        if (srasp == 0) TxtLog.Text += "Set auto sleep successfully\r\n";
+                        else TxtLog.Text += "Set auto sleep failed\r\n";
 
                         RFIDReader._RFIDConfig.Stop(TxtTcp.Text); 
                     }
